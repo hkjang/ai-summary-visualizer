@@ -1,6 +1,6 @@
 import os
 import requests
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template, send_from_directory
 from flask_cors import CORS
 from dotenv import load_dotenv
 from langchain_ollama import ChatOllama
@@ -54,6 +54,11 @@ def generate_mermaid_diagram(question):
         return {"success": True, "mermaid": mermaid_code}
     except Exception as e:
         return {"success": False, "error": str(e)}
+
+# /webfonts 경로 추가
+@app.route('/webfonts/<path:filename>')
+def webfonts(filename):
+    return send_from_directory('webfonts', filename)
 
 @app.route("/", methods=["GET", "POST"])
 def index():
